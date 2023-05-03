@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import Card from "../UI/Card";
-import classes from "./AvailableMeals.module.css";
-import MealItem from "./MealItem/MealItem";
+import { useEffect, useState } from 'react';
+import Card from '../UI/Card';
+import classes from './AvailableMeals.module.css';
+import MealItem from './MealItem/MealItem';
 
 const AvailableMeals = () => {
   const [mealsData, setMealsData] = useState([]);
@@ -11,11 +11,11 @@ const AvailableMeals = () => {
   useEffect(() => {
     const fetchMeals = async () => {
       const response = await fetch(
-        "https://daegon---react-project-default-rtdb.firebaseio.com/shoes.json"
+        'https://daegon---react-project-default-rtdb.firebaseio.com/shoes.json'
       );
 
       if (!response.ok) {
-        throw new Error("뭔가 잘못되었어요!!.");
+        throw new Error('뭔가 잘못되었어요!!.');
       }
       const responseData = await response.json();
 
@@ -43,7 +43,7 @@ const AvailableMeals = () => {
   if (isLoading) {
     return (
       <section className={classes.MealsLoading}>
-        <h2>Loading....</h2>
+        <h2>로딩중...</h2>
       </section>
     );
   }

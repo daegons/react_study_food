@@ -7,8 +7,9 @@ import Checkout from './Checkout';
 
 const Cart = (props) => {
   const [isCheckout, setIsCheckout] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
   const cartCxt = useContext(CartContext);
-
   const totalAmount = `${cartCxt.totalAmount}₩`;
   const hasItems = cartCxt.items.length > 0;
 
@@ -23,8 +24,9 @@ const Cart = (props) => {
     setIsCheckout(true);
   };
 
-  const submitOrderHandler = (userData) => {
-    fetch(
+  const submitOrderHandler = async (userData) => {
+    setIsSubmitting(true);
+    await fetch(
       'https://daegon---react-project-default-rtdb.firebaseio.com/orders.json',
       {
         method: 'POST',
@@ -34,6 +36,9 @@ const Cart = (props) => {
         }),
       }
     );
+    setIsSubmitting(false);
+    setDidSubmit(true);
+    cartCxt.clearCart();
   };
 
   const cartItems = (
@@ -66,8 +71,8 @@ const Cart = (props) => {
     </div>
   );
 
-  return (
-    <Modal onHideCart={props.onHideCart}>
+  const cartModalContent = (
+    <>
       {cartItems}
       <div className={classes.total}>
         {!hasItems ? <span>상품을 추가해주세요.</span> : <span>최종 금액</span>}
@@ -80,6 +85,26 @@ const Cart = (props) => {
         />
       )}
       {!isCheckout && modalActions}
+    </>
+  );
+
+  const isSubmittingModalContent = <p>주문 요청중...🕗</p>;
+
+  const DidSubmittingModalContent = (
+    <>
+      <p>주문 완료 ✔</p>
+      <div className={classes.actions}>
+        <button className={classes.button} onClick={props.onHideCart}>
+          닫기
+        </button>
+      </div>
+    </>
+  );
+  return (
+    <Modal onHideCart={props.onHideCart}>
+      {!isSubmitting && !didSubmit && cartModalContent}
+      {isSubmitting && isSubmittingModalContent}
+      {!isSubmitting && didSubmit && DidSubmittingModalContent}
     </Modal>
   );
 };
