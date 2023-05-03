@@ -20,6 +20,7 @@ const MealItem = (props) => {
     <li className={classes.meal}>
       <div>
         <h3>{props.name}</h3>
+        <img src={props.imgURL} alt="이미지" width="23%" />
         <div className={classes.description}>{props.description}</div>
         <div className={classes.price}>{price}</div>
       </div>

@@ -11,7 +11,7 @@ const AvailableMeals = () => {
   useEffect(() => {
     const fetchMeals = async () => {
       const response = await fetch(
-        "https://daegon---react-project-default-rtdb.firebaseio.com/meals.json"
+        "https://daegon---react-project-default-rtdb.firebaseio.com/shoes.json"
       );
 
       if (!response.ok) {
@@ -27,6 +27,7 @@ const AvailableMeals = () => {
           name: responseData[key].name,
           description: responseData[key].description,
           price: responseData[key].price,
+          imgURL: responseData[key].imgURL,
         });
       }
       setMealsData(loadedMeals);
@@ -63,6 +64,7 @@ const AvailableMeals = () => {
         name={list.name}
         description={list.description}
         price={list.price}
+        imgURL={list.imgURL}
       />
     );
   });
